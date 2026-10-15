@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="A modular e-commerce demo with login, signup, products, cart, and admin tools.">
+  <title>ShopSphere | E-commerce Demo</title>
+  <link rel="stylesheet" href="assets/css/styles.css">
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="#" aria-label="ShopSphere home"><span class="brand-mark">S</span> ShopSphere</a>
+    <nav id="main-nav" class="nav-links" aria-label="Main navigation">
+      <button class="nav-link active" data-view="auth">Home / Login</button>
+      <button class="nav-link hidden" data-view="shop" id="shop-nav">Shop</button>
+      <button class="nav-link hidden" data-view="cart" id="cart-nav">Cart <span id="cart-count" class="count">0</span></button>
+      <button class="nav-link hidden" data-view="admin" id="admin-nav">Admin</button>
+    </nav>
+    <div class="account-actions">
+      <span id="welcome-label" class="welcome-label"></span>
+      <button id="logout-btn" class="btn btn-outline btn-small hidden">Log out</button>
+    </div>
+  </header>
+
+  <main class="container">
+    <section id="auth-view" class="view auth-layout">
+      <div class="hero-copy">
+        <p class="eyebrow">YOUR EVERYDAY FINDS</p>
+        <h1>Good things.<br><span>One click away.</span></h1>
+        <p class="hero-description">Discover useful products, build your cart, and enjoy a simple shopping experience.</p>
+        <div class="hero-points">
+          <span>✓ Curated products</span><span>✓ Simple checkout demo</span><span>✓ Account-based access</span>
+        </div>
+        <div class="hero-art" aria-hidden="true"><div class="art-circle"></div><div class="art-card card-a">🎧</div><div class="art-card card-b">⌚</div><div class="art-card card-c">👟</div><div class="art-spark">✦</div></div>
+      </div>
+      <div class="auth-card">
+        <div class="auth-tabs">
+          <button class="auth-tab active" data-auth-tab="login">Log in</button>
+          <button class="auth-tab" data-auth-tab="signup">Create account</button>
+        </div>
+        <form id="login-form" class="auth-form">
+          <h2>Welcome back</h2><p class="muted">Log in to continue to the store.</p>
+          <label for="login-email">Email address</label><input id="login-email" name="email" type="email" placeholder="you@example.com" required autocomplete="email">
+          <label for="login-password">Password</label><input id="login-password" name="password" type="password" placeholder="Enter your password" required autocomplete="current-password">
+          <button class="btn btn-primary btn-full" type="submit">Log in <span>→</span></button>
+          <p class="form-note">New here? <button type="button" class="text-button" data-switch-auth="signup">Create an account</button></p>
+        </form>
+        <form id="signup-form" class="auth-form hidden">
+          <h2>Create your account</h2><p class="muted">Sign up to browse and shop.</p>
+          <label for="signup-name">Full name</label><input id="signup-name" name="name" type="text" placeholder="Your name" required minlength="2" autocomplete="name">
+          <label for="signup-email">Email address</label><input id="signup-email" name="email" type="email" placeholder="you@example.com" required autocomplete="email">
+          <label for="signup-password">Password</label><input id="signup-password" name="password" type="password" placeholder="At least 6 characters" required minlength="6" autocomplete="new-password">
+          <button class="btn btn-primary btn-full" type="submit">Create account <span>→</span></button>
+          <p class="form-note">Already registered? <button type="button" class="text-button" data-switch-auth="login">Log in</button></p>
+        </form>
+        <div class="demo-note"><strong>Admin demo login</strong><br>Email: <code>admin@shopsphere.demo</code><br>Password: <code>Admin123!</code></div>
+        <p id="auth-message" class="message" role="status" aria-live="polite"></p>
+      </div>
+    </section>
+
+    <section id="shop-view" class="view hidden">
+      <div class="section-heading">
+        <div><p class="eyebrow">THE COLLECTION</p><h1>Find your next favorite.</h1><p class="muted">Browse the collection and add items to your cart.</p></div>
+        <div class="shop-tools"><input id="search-input" type="search" placeholder="Search products…" aria-label="Search products"><select id="category-filter" aria-label="Filter by category"><option value="all">All categories</option></select></div>
+      </div>
+      <div id="product-grid" class="product-grid"></div>
+      <p id="empty-products" class="empty-state hidden">No products match your search.</p>
+    </section>
+
+    <section id="cart-view" class="view hidden">
+      <div class="section-heading"><div><p class="eyebrow">YOUR BAG</p><h1>Shopping cart</h1><p class="muted">Review your selected items.</p></div><button class="btn btn-outline" data-view="shop">Continue shopping</button></div>
+      <div class="cart-layout"><div id="cart-items" class="cart-items"></div><aside class="summary-card"><h2>Order summary</h2><div class="summary-line"><span>Subtotal</span><strong id="cart-subtotal">$0.00</strong></div><div class="summary-line"><span>Shipping</span><strong>Free</strong></div><div class="summary-line total"><span>Total</span><strong id="cart-total">$0.00</strong></div><button id="checkout-btn" class="btn btn-primary btn-full">Place demo order</button><p class="tiny muted">Demo only. No payment is collected.</p></aside></div>
+    </section>
+
+    <section id="admin-view" class="view hidden">
+      <div class="section-heading"><div><p class="eyebrow">CONTROL CENTER</p><h1>Admin dashboard</h1><p class="muted">Manage the product catalogue for this demo store.</p></div><span class="admin-pill">ADMIN ACCESS</span></div>
+      <div class="stats-grid"><div class="stat-card"><span>Total products</span><strong id="stat-products">0</strong></div><div class="stat-card"><span>Registered users</span><strong id="stat-users">0</strong></div><div class="stat-card"><span>Orders this session</span><strong id="stat-orders">0</strong></div></div>
+      <div class="admin-layout">
+        <form id="product-form" class="panel">
+          <h2 id="product-form-title">Add a product</h2><input type="hidden" id="product-id">
+          <label for="product-name">Product name</label><input id="product-name" required maxlength="70" placeholder="e.g. Wireless headphones">
+          <label for="product-category">Category</label><input id="product-category" required maxlength="30" placeholder="e.g. Electronics">
+          <label for="product-price">Price (USD)</label><input id="product-price" type="number" min="0.01" step="0.01" required placeholder="49.99">
+          <label for="product-emoji">Product icon / emoji</label><input id="product-emoji" maxlength="8" placeholder="🎧" value="🛍️">
+          <label for="product-description">Description</label><textarea id="product-description" rows="3" required maxlength="180" placeholder="A short product description"></textarea>
+          <div class="form-actions"><button class="btn btn-primary" type="submit" id="save-product-btn">Save product</button><button class="btn btn-outline hidden" type="button" id="cancel-edit-btn">Cancel edit</button></div>
+          <p id="admin-message" class="message" role="status"></p>
+        </form>
+        <div class="panel catalogue-panel"><div class="panel-heading"><h2>Product catalogue</h2><span id="catalogue-count" class="muted"></span></div><div id="admin-product-list" class="admin-product-list"></div></div>
+      </div>
+      <div class="panel users-panel"><h2>Registered users</h2><p class="tiny muted">Only basic account details are shown. Passwords are not displayed.</p><div id="admin-user-list"></div></div>
+    </section>
+  </main>
+
+  <footer class="footer"><span>© 2026 ShopSphere Demo</span><span>Built with HTML, CSS, JavaScript & Local Storage</span></footer>
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+  <script type="module" src="assets/js/app.js"></script>
+</body>
+</html>

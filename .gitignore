@@ -1,0 +1,9 @@
+# OS / editor files
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Logs and dependencies (not required for this static project)
+*.log
+node_modules/
